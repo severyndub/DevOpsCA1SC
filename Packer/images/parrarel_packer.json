@@ -1,0 +1,59 @@
+{
+	"variables": {
+	},
+	"builders": [
+		{
+			"type": "virtualbox-iso",
+			"guest_os_type": "Ubuntu_64",
+			"iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.5-server-amd64.iso",
+			"iso_checksum": "769474248a3897f4865817446f9a4a53",
+			"iso_checksum_type": "md5",
+			"ssh_username": "packer",
+			"ssh_password": "packer",
+			"shutdown_command": "echo 'packer' | sudo -S shutdown -P now"
+		}
+	,
+	{
+		"name": "aws1",	
+		"access_key": "",
+			"secret_key": "",
+			"region": "us-east-1",
+			"type": "amazon-ebs",
+			"source_ami": "ami-c481fad3",
+			"instance_type": "t2.micro",
+			"ssh_username": "ec2-user",
+			"ami_name": "CentOS {{timestamp}}"
+		},
+		{
+			"name": "aws2",
+			"type": "amazon-ebs",
+			"access_key": "",
+			"secret_key": "",
+			"region": "us-east-1",
+			"source_ami_filter": {
+				"filters": {
+					"virtualization-type": "hvm",
+					"name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
+					"root-device-type": "ebs"
+				},
+				"owners": ["099720109477"],
+				"most_recent": true
+			},
+			"instance_type": "t2.micro",
+			"ssh_username": "ubuntu",
+			"ami_name": "packer-example {{timestamp}}"
+		}
+	],
+
+	"provisioners": [
+		{
+			"type": "shell",
+			"inline": [
+				"sleep 30",
+				"sudo yum update -y",
+				"sudo yum install httpd -y",
+				"sudo yum install git -y"
+			]
+		}
+	]
+}
