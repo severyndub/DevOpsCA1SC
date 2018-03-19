@@ -1,10 +1,12 @@
 {
 	"variables": {
+	    "aws_access_key": "",
+		"aws_secret_key": ""
 	},
 	"builders": [
 		{
-		"access_key": "",
 		"secret_key": "",
+		"secret_key": "{{user `aws_secret_key`}}",
 		"region":  "us-east-1",
 		"type": "amazon-ebs",
 		"source_ami": "ami-c481fad3",

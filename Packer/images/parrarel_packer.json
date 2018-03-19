@@ -1,5 +1,7 @@
 {
 	"variables": {
+	    "aws_access_key": "",
+		"aws_secret_key": ""
 	},
 	"builders": [
 		{
@@ -15,8 +17,8 @@
 	,
 	{
 		"name": "aws1",	
-		"access_key": "",
-			"secret_key": "",
+			"access_key": "{{user `aws_access_key`}}",
+			"secret_key": "{{user `aws_secret_key`}}",
 			"region": "us-east-1",
 			"type": "amazon-ebs",
 			"source_ami": "ami-c481fad3",
@@ -27,8 +29,8 @@
 		{
 			"name": "aws2",
 			"type": "amazon-ebs",
-			"access_key": "",
-			"secret_key": "",
+			"access_key": "{{user `aws_access_key`}}",
+			"secret_key": "{{user `aws_secret_key`}}",
 			"region": "us-east-1",
 			"source_ami_filter": {
 				"filters": {
